@@ -1,0 +1,1 @@
+<view><view class="html2canvas" prop="{{domId}}" change:prop="{{html2canvas.create}}"><slot></slot></view></view>

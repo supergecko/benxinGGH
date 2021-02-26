@@ -1,0 +1,103 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页,测试杀
+		{
+			"path": "pages/active/active",
+			"style": {
+				"navigationBarTitleText": "本心数易",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/quming/quming",
+			"style": {
+				"navigationBarTitleText": "取名"
+			}
+		}, 
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "数易测算",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+				// "navigationBarBackgroundColor": "transparent",
+				// "navigationBarTextStyle": "black",
+				// "app-plus": {
+				// 	"titleNView": {
+				// 		"type": "float",
+				// 		"titleText": "数易测算",
+				// 		"buttons": [{
+				// 			"text": "分享",
+				// 			"float":"right",
+				// 			"fontSize": "24upx",
+				// 			"width":"80upx"
+				// 		}]
+
+				// 	}
+				// }
+			}
+		},
+		{
+			"path": "pages/auth/index",
+			"style": {
+				"navigationBarTitleText": "本心数易授权",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}
+	],
+	// "tabBar": {
+	// 	"color": "#999999",
+	// 	"selectedColor": "#331C01",
+	// 	"backgroundColor": "#ffffff",
+	// 	"iconWidth": "26px",
+	// 	"fontSize": "12px",
+	// 	"list": [{
+	// 		"pagePath": "pages/main/main",
+	// 		"text": "首页",
+	// 		"iconPath": "static/icon/home.png",
+	// 		"selectedIconPath": "static/icon/home2.png"
+	// 	}, {
+	// 		"pagePath": "pages/shop/shop",
+	// 		"text": "商城",
+	// 		"iconPath": "static/icon/shop.png",
+	// 		"selectedIconPath": "static/icon/shop2.png"
+	// 	}, {
+	// 		"pagePath": "pages/active/active",
+	// 		"text": "活动",
+	// 		"iconPath": "static/icon/active.png",
+	// 		"selectedIconPath": "static/icon/active2.png"
+	// 	}, {
+	// 		"pagePath": "pages/login/login",
+	// 		"text": "消息",
+	// 		"iconPath": "static/icon/message.png",
+	// 		"selectedIconPath": "static/icon/message2.png"
+	// 	}, {
+	// 		"pagePath": "pages/user/user",
+	// 		"text": "我的",
+	// 		"iconPath": "static/icon/my.png",
+	// 		"selectedIconPath": "static/icon/my2.png"
+	// 	}]
+	// },
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#ff8831",
+		"backgroundColor": "#fbf9fe"
+	}
+	// "condition" : { //模式配置，仅开发期间生效
+	// 	"current": 0, //当前激活的模式(list 的索引项)
+	// 	"list": [
+	// 		{
+	// 			"name": "", //模式名称
+	// 			"path": "", //启动页面，必选
+	// 			"query": "" //启动参数，在页面的onLoad函数里面得到
+	// 		}
+	// 	]
+	// }
+}

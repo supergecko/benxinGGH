@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/active/active",
+    "pages/main/main",
+    "pages/login/login",
+    "pages/reg/reg",
+    "pages/pwd/pwd",
+    "pages/user/user",
+    "pages/shop/shop",
+    "pages/message/message"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarBackgroundColor": "#ff8831",
+    "backgroundColor": "#fbf9fe"
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap27.json"
+}

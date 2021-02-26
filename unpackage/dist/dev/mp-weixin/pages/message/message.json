@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "数易测算",
+  "navigationBarBackgroundColor": "transparent",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "html2canvas": "/components/jcboy-html2canvas/html2canvas",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "zan-calendar": "/components/quick-calendar/calendar"
+  }
+}
