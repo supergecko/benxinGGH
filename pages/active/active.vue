@@ -57,13 +57,15 @@
 			</view>
 		</view>
 		<view class="bottomBtn" @click="openNew()">立即测算</view>
+		<view class="bottomBtn" @click="_calendar()()">农历</view>
 	</view>
 </template>
 <script>
 	import {
 		mapState
 	} from 'vuex'
-	import zanCalendar from '../..//components/quick-calendar/calendar'
+	import zanCalendar from '../../components/quick-calendar/calendar'
+	import formatCalendar from "../../common/calendar/render.js"
 	import wx from 'weixin-js-sdk'
 	export default {
 		components: {
@@ -159,6 +161,17 @@
 			}
 		},
 		methods: {
+			//公历年月日转农历数据
+			_calendar(){
+				var birth = "2020-02-02"
+				var  bb = birth.split('-')
+				// var year = parseInt(bb[0])
+				// var mouth = Number(bb[1]) 
+				// var day = + bb[2]
+				// console.log(year,mouth,day)
+				var newJson = formatCalendar.getLunar(2019,2,2)
+				console.log(newJson)
+			},
 			//进行支付流程
 			openNew() {
 				if (this.newUserName === '') {
@@ -182,26 +195,26 @@
 					});
 					return;
 				}
-				uni.setStorage({
-					key: "data",
-					data: this.userData
-				})
-				uni.setStorage({
-					key: "userName",
-					data: this.newUserName
-				})
-				uni.setStorage({
-					key: "gender",
-					data: this.gender
-				})
-				uni.setStorage({
-					key: "lunarDate",
-					data: this.lunarDate
-				})
-				uni.setStorage({
-					key: "solarDate",
-					data: this.solarDate
-				})
+				// uni.setStorage({
+				// 	key: "data",
+				// 	data: this.userData
+				// })
+				// uni.setStorage({
+				// 	key: "userName",
+				// 	data: this.newUserName
+				// })
+				// uni.setStorage({
+				// 	key: "gender",
+				// 	data: this.gender
+				// })
+				// uni.setStorage({
+				// 	key: "lunarDate",
+				// 	data: this.lunarDate
+				// })
+				// uni.setStorage({
+				// 	key: "solarDate",
+				// 	data: this.solarDate
+				// })
 				this.splitMethod(parseInt(this.userData))
 				this._resulContent()
 			},
@@ -264,6 +277,8 @@
 				const mobile = this.mobile //手机号
 				const trueName = this.newUserName
 				const birth = this.userData
+				const gender = this.gender
+				const openid = uni.getStorageSync("openid")
 				const aqtz = {
 					"code": this.aqtz
 				} //爱情特征
@@ -332,6 +347,8 @@
 					mobile,
 					trueName,
 					birth,
+					openid,
+					gender,
 					aqtz,
 					dnsmxx,
 					dwsmxx,
@@ -363,10 +380,10 @@
 						//初始化信息
 						var newData = res.data.data
 						this.orderId = newData.id
-						uni.setStorage({
-							key: "orderId",
-							data: newData.id
-						})
+						// uni.setStorage({
+						// 	key: "orderId",
+						// 	data: newData.id
+						// })
 						// uni.redirectTo({
 						//     url: '../message/message'
 						// })
@@ -378,6 +395,7 @@
 					// 	title: err,
 					// 	duration: 2000
 					// });
+					alert('进来了')
 				})
 			},
 			//支付测算订单接口
@@ -461,9 +479,13 @@
 				      // 	title: '支付成功'
 				      // })
 				      setTimeout(() => {
+						// uni.redirectTo({
+						// 	url: '../message/message?data=' + this.userData + '&userName=' + this.newUserName + '&gender=' + this.gender +
+						// 		'&lunarDate=' + this.lunarDate + '&solarDate=' + this.solarDate + '&orderId=' + this.orderId
+						// });
 						uni.redirectTo({
-						    url: '../message/message'
-						})
+							url: '../message/message?orderId=' + this.orderId
+						});
 				      }, 1000)
 				    },
 					cancel: function(res) {
