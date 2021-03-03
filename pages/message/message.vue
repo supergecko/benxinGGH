@@ -413,7 +413,7 @@
 				aqtz: "8", //爱情特征 K
 				shdx: "9", //适合对象：本命K数+对象K数
 				liunian: "562", //流年IJK
-				orderId:''//订单ID
+				orderId:'',//订单ID
 			}
 		},
 		onNavigationBarButtonTap(e) {
@@ -421,18 +421,12 @@
 			this.shareOn()
 		},
 		onLoad: function(options) {
-			this.userName = uni.getStorageSync("userName") //用户名字
-			this.gender = uni.getStorageSync("gender") //用户性别
-			this.lunarDate = uni.getStorageSync("lunarDate") //农历(阴历)
-			this.solarDate = uni.getStorageSync("solarDate") //公历(阳历)
-			this.orderId = uni.getStorageSync("orderId") //订单ID
-			var timeData = uni.getStorageSync("data")
-			if (!this.orderId) {
-				uni.redirectTo({
-					url: '../active/active'
-				})
-			}
-			this.splitMethod(parseInt(timeData))
+			// this.userName = uni.getStorageSync("userName") //用户名字
+			// this.gender = uni.getStorageSync("gender") //用户性别
+			// this.lunarDate = uni.getStorageSync("lunarDate") //农历(阴历)
+			// this.solarDate = uni.getStorageSync("solarDate") //公历(阳历)
+			// var timeData = uni.getStorageSync("data")
+			this.orderId = options.orderId //订单ID
 			this._detailById()//查询测算订单接口
 		},
 		mounted() {
@@ -601,6 +595,19 @@
 			// 	// console.log("filePath", filePath)
 			// 	console.log(1111111111)
 			// },
+			//公历年月日转农历数据
+			gongliToN(birth){
+				let  bb = birth.split('-')
+				let newJson = this.$lunarFun.gregorianToLunal(bb[0], bb[1], bb[2])
+				let data = newJson[0]+ '年' + newJson[1]+'月'+ newJson[2] + '日'
+				return data
+			},
+			//处理后台返回的公历数据
+			gongli(birth){
+				let  bb = birth.split('-')
+				let data = bb[0]+ '年' + bb[1]+'月'+ bb[2] + '日'
+				return data
+			},
 			//查询测算订单接口
 			_detailById() {
 				uni.getNetworkType({
@@ -627,11 +634,15 @@
 					if (res.data.code == 200) {
 						//初始化信息
 						var newData = JSON.parse(res.data.data.result)
-						if (!newData) {
-							uni.redirectTo({
-							    url: '../active/active'
-							})
-						}
+						var birth = res.data.data.birth
+						var b = birth.replace(/[^\d]/g, '')
+						this.userName = res.data.data.trueName //用户名字
+						this.gender = res.data.data.gender //用户性别
+						this.lunarDate = this.gongliToN(birth) //农历(阴历)
+						this.solarDate = this.gongli(birth) //公历(阳历)
+						
+						this.splitMethod(parseInt(b))
+						
 						this.longContentArr.push(newData.zxgtz) //主性格
 						this.longContentArr.push(newData.fxjy) //父系基因
 						this.longContentArr.push(newData.mxjy) //母系基因

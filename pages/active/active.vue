@@ -57,7 +57,7 @@
 			</view>
 		</view>
 		<view class="bottomBtn" @click="openNew()">立即测算</view>
-		<view class="bottomBtn" @click="_calendar()()">农历</view>
+		<view class="history" @click="openHistory()">历史订单</view>
 	</view>
 </template>
 <script>
@@ -77,7 +77,8 @@
 				detail: '',
 				newUserName: '', //用户名字
 				mobile: '', //用户手机
-				userData: '', //日期
+				userData: '', //日期 20190201格式
+				userData2:'',//2019-02-01格式
 				gender: '', //性别
 				lunarDate: '', //农历(阴历)
 				solarDate: '', //公历(阳历)
@@ -161,16 +162,11 @@
 			}
 		},
 		methods: {
-			//公历年月日转农历数据
-			_calendar(){
-				var birth = "2020-02-02"
-				var  bb = birth.split('-')
-				// var year = parseInt(bb[0])
-				// var mouth = Number(bb[1]) 
-				// var day = + bb[2]
-				// console.log(year,mouth,day)
-				var newJson = formatCalendar.getLunar(2019,2,2)
-				console.log(newJson)
+			//打开历史订单
+			openHistory(){
+				uni.navigateTo({
+					url: '../orderHistory/index?openId=' + uni.getStorageSync("openid")
+				});
 			},
 			//进行支付流程
 			openNew() {
@@ -252,6 +248,7 @@
 				this.solarDate = e.solarDate
 				this.detail = e.solarDate
 				var a = e.date
+				this.userData2 = e.date
 				var b = a.replace(/[^\d]/g, '')
 				this.userData = b
 				console.log(this.userData)
@@ -276,7 +273,7 @@
 				});
 				const mobile = this.mobile //手机号
 				const trueName = this.newUserName
-				const birth = this.userData
+				const birth = this.userData2
 				const gender = this.gender
 				const openid = uni.getStorageSync("openid")
 				const aqtz = {
@@ -387,7 +384,17 @@
 						// uni.redirectTo({
 						//     url: '../message/message'
 						// })
+						// uni.navigateTo({
+						// 	url: '../message/message?orderId=' + this.orderId 
+						// });
 						this._pay(newData.id)
+					}
+					if (res.data.code == 500){
+						uni.hideLoading()
+						uni.showToast({
+							icon: 'none',
+							title: '您已测算过此订单 请点击历史订单查询'
+						});
 					}
 				}).catch((err) => {
 					uni.hideLoading()
@@ -395,7 +402,7 @@
 					// 	title: err,
 					// 	duration: 2000
 					// });
-					alert('进来了')
+					alert(err)
 				})
 			},
 			//支付测算订单接口
@@ -456,6 +463,7 @@
 			//调起微信支付
 			wxPayInvoke(payRes,config) {
 				//发起微信支付
+				var _this = this
 				const appId = payRes.appid
 				const timestamp = Math.ceil((new Date() - 0) / 1000)
 				const nonceStr = payRes.nonce_str
@@ -482,9 +490,9 @@
 						// uni.redirectTo({
 						// 	url: '../message/message?data=' + this.userData + '&userName=' + this.newUserName + '&gender=' + this.gender +
 						// 		'&lunarDate=' + this.lunarDate + '&solarDate=' + this.solarDate + '&orderId=' + this.orderId
-						// });
-						uni.redirectTo({
-							url: '../message/message?orderId=' + this.orderId
+						// }); '&openId=' + uni.getStorageSync("openid")
+						uni.navigateTo({
+							url: '../message/message?orderId=' + _this.orderId 
 						});
 				      }, 1000)
 				    },
@@ -734,6 +742,22 @@
 </script>
 
 <style>
+	.history{
+		color: #B28B65;
+		position: fixed;
+		top: 16upx;
+		right: 12upx;
+		background-image: url(../../static/home/button2.png);
+		width: 210upx;
+		height: 60upx;
+		margin: 0 auto;
+		background-size: 100% 100%;
+		line-height: 60upx;
+		text-align: center;
+		font-size: 24upx;
+		color: #090500;
+		font-weight: 400;
+	}
 	.bg {
 		background-image: url(../../static/home/bg.png);
 		background-size: 100% 100%;
